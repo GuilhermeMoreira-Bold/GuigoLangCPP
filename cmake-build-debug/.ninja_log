@@ -1,0 +1,11 @@
+# ninja log v6
+1	580	1728439416491948284	CMakeFiles/untitled4.dir/scanner/Scanner.cpp.o	5e79a97daa622771
+1	313	1728436957751962635	CMakeFiles/untitled4.dir/lexer/Token.cpp.o	254ec3d0933477ee
+0	236	1728433881643980589	CMakeFiles/untitled4.dir/error/GuigoError.cpp.o	74789bff86de25e1
+580	627	1728439417071948281	untitled4	71b9226960305617
+0	529	1728436957751962635	CMakeFiles/untitled4.dir/main.cpp.o	9e0896d0d9d66aee
+2	293	1728923908467996428	CMakeFiles/untitled4.dir/error/GuigoError.cpp.o	d9a8e32d89d39f31
+1	359	1728923908463996428	CMakeFiles/untitled4.dir/lexer/Token.cpp.o	b5f46f2e6ada947c
+1	593	1728923908463996428	CMakeFiles/untitled4.dir/main.cpp.o	2795e7ff2713fcb6
+1	675	1728923908463996428	CMakeFiles/untitled4.dir/scanner/Scanner.cpp.o	6bab557959d287a1
+675	719	1728923909139996424	untitled4	71b9226960305617

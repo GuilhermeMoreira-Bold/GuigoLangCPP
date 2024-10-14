@@ -1,0 +1,5 @@
+<program> ::= <statement>
+<statement> ::= <declaration> | <assigment> | <expression>
+
+<declaration> ::= "var" <identifier> "=" <expression> ";"
+<expression> ::= <identifier>

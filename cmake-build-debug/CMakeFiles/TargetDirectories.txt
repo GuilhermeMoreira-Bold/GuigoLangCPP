@@ -1,0 +1,3 @@
+/home/guilherme/CLionProjects/GuigoLang/cmake-build-debug/CMakeFiles/untitled4.dir
+/home/guilherme/CLionProjects/GuigoLang/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/guilherme/CLionProjects/GuigoLang/cmake-build-debug/CMakeFiles/rebuild_cache.dir
