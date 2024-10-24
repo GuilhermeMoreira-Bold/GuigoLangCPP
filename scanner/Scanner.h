@@ -5,8 +5,6 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 #include <list>
-#include <map>
-#include <memory>
 #include <string>
 #include <unordered_map>
 
@@ -32,7 +30,7 @@ public:
     void scanToken();
     char advance();
     void addToken(TOKENTYPE token);
-    void addToken(TOKENTYPE token, std::any literal);
+    void addToken(TOKENTYPE token, Object* literal);
     bool match(char expected);
     char peek();
     Scanner(const std::string& source);

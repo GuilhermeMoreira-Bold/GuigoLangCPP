@@ -1,5 +1,22 @@
 <program> ::= <statement>
-<statement> ::= <declaration> | <assigment> | <expression>
+<statement> ::= <declaration> | <expression>
 
 <declaration> ::= "var" <identifier> "=" <expression> ";"
-<expression> ::= <identifier>
+
+<expression> ::= <equality>
+
+<equality> ::= <comparison> (("==" | "!=") <comparison>)*
+
+<comparison> ::=  <term> ((">=" | ">" | "<" | "<=") <term>)*
+
+<term> ::= <factor> (("+" | "-") <factor>)*
+
+<factor> ::= <unary> (("/" | "*") <unary>)*
+
+<identifier> ::= <literal>
+
+<unary> ::= ("-" | "!") <unary> | <literal>
+
+<literal> ::= string | number | "true" | "false" | "null" | <grouping>
+
+<grouping> ::= "(" <expression> ")"

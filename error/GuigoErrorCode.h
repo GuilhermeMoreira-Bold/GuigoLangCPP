@@ -5,6 +5,6 @@
 #ifndef GUIGOERRORCODE_H
 #define GUIGOERRORCODE_H
 enum GuigoErrorCode {
-    InvalidExpression,
+    InvalidExpression, UnkowType
 };
 #endif //GUIGOERRORCODE_H

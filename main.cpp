@@ -4,13 +4,17 @@
 #include "scanner/Scanner.h"
 #include <fstream>
 
+#include "interpreter/Interpreter.h"
+#include "parser/Parser.h"
+
 void run(std::string& source) {
     Scanner scanner =  Scanner(source);
     std::list<Token> tokens = scanner.scanTokens();
-
-    for(auto token : tokens) {
-        std::cout << token.toString() << std::endl;
-    }
+    Parser parser = Parser(tokens);
+    Expression* expression = parser.parse();
+    Interpreter* interpreter = new Interpreter();
+    interpreter->interpret(expression);
+    // std::cout << expression->toString() << std::endl;
 }
 
 void runFile(std::string& fileName) {

@@ -28,6 +28,7 @@ std::list<Token> Scanner::scanTokens() {
         start = current;
         scanToken();
     }
+    addToken(Eof);
     return tokens;
 }
 
@@ -39,14 +40,14 @@ char Scanner::advance() {
     return source.at(current++);
 }
 
-void Scanner::addToken(TOKENTYPE type, std::any literal) {
+void Scanner::addToken(TOKENTYPE type, Object* literal) {
     std::string lexeme = source.substr(start, current - start);
     Token token = Token(type, lexeme, line, literal);
     tokens.push_back(token);
 }
 
 void Scanner::addToken(TOKENTYPE token) {
-   addToken(token, nullptr);
+   addToken(token, new Object());
 }
 
 
@@ -120,7 +121,7 @@ void Scanner::string() {
     advance();
 
     std::string value = source.substr(start + 1, current - start - 2);
-    addToken(String, value);
+    addToken(String, new Object(value));
 }
 
 char Scanner::peekNext() {
@@ -135,7 +136,7 @@ void Scanner::number() {
         advance();
         while(isdigit(peek())) advance();
     }
-    addToken(Number, std::stod(source.substr(start, current)));
+    addToken(Number, new Object( std::stod(source.substr(start, current))));
 }
 
 bool Scanner::isAlphaNumeric(char peek) {

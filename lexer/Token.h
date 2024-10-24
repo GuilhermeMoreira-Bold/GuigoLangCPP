@@ -6,23 +6,18 @@
 #define TOKEN_H
 #include <any>
 #include <string>
-
 #include "TokenType.h"
-
+#include "../obj/Object.h"
 
 class Token {
 public:
     TOKENTYPE token;
     std::string lexeme;
     int line;
-    std::any literal;
+    Object* literal;
 
-    Token(TOKENTYPE token, std::string lexeme, int line, std::any literal);
-
+    Token(TOKENTYPE token, std::string lexeme, int line, Object* literal);
     std::string toString();
-private:
-
-
 };
 
 

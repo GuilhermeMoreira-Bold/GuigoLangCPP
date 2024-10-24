@@ -11,7 +11,9 @@
 
 class GuigoError {
     public:
+    static void parserError(std::string message, GuigoErrorCode code);
     static void error(std::string message, GuigoErrorCode code,int line);
+    static void objectError(std::string message, GuigoErrorCode code);
     GuigoError();
 };
 
