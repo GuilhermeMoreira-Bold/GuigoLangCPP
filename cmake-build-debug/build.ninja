@@ -49,41 +49,41 @@ cmake_ninja_workdir = /home/guilherme/CLionProjects/GuigoLang/cmake-build-debug/
 
 build cmake_object_order_depends_target_untitled4: phony || .
 
-build CMakeFiles/untitled4.dir/main.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/main.cpp || cmake_object_order_depends_target_untitled4
-  DEP_FILE = CMakeFiles/untitled4.dir/main.cpp.o.d
+build CMakeFiles/untitled4.dir/core/src/main.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/core/src/main.cpp || cmake_object_order_depends_target_untitled4
+  DEP_FILE = CMakeFiles/untitled4.dir/core/src/main.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/untitled4.dir
-  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir
+  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/core/src
 
-build CMakeFiles/untitled4.dir/lexer/Token.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/lexer/Token.cpp || cmake_object_order_depends_target_untitled4
-  DEP_FILE = CMakeFiles/untitled4.dir/lexer/Token.cpp.o.d
+build CMakeFiles/untitled4.dir/compiler/lexer/Token.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/compiler/lexer/Token.cpp || cmake_object_order_depends_target_untitled4
+  DEP_FILE = CMakeFiles/untitled4.dir/compiler/lexer/Token.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/untitled4.dir
-  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/lexer
+  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/compiler/lexer
 
-build CMakeFiles/untitled4.dir/scanner/Scanner.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/scanner/Scanner.cpp || cmake_object_order_depends_target_untitled4
-  DEP_FILE = CMakeFiles/untitled4.dir/scanner/Scanner.cpp.o.d
+build CMakeFiles/untitled4.dir/compiler/scanner/Scanner.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/compiler/scanner/Scanner.cpp || cmake_object_order_depends_target_untitled4
+  DEP_FILE = CMakeFiles/untitled4.dir/compiler/scanner/Scanner.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/untitled4.dir
-  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/scanner
+  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/compiler/scanner
 
-build CMakeFiles/untitled4.dir/error/GuigoError.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/error/GuigoError.cpp || cmake_object_order_depends_target_untitled4
-  DEP_FILE = CMakeFiles/untitled4.dir/error/GuigoError.cpp.o.d
+build CMakeFiles/untitled4.dir/compiler/error/GuigoError.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/compiler/error/GuigoError.cpp || cmake_object_order_depends_target_untitled4
+  DEP_FILE = CMakeFiles/untitled4.dir/compiler/error/GuigoError.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/untitled4.dir
-  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/error
+  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/compiler/error
 
-build CMakeFiles/untitled4.dir/expressions/BinaryExpression.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/expressions/BinaryExpression.cpp || cmake_object_order_depends_target_untitled4
-  DEP_FILE = CMakeFiles/untitled4.dir/expressions/BinaryExpression.cpp.o.d
+build CMakeFiles/untitled4.dir/compiler/expressions/BinaryExpression.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/compiler/expressions/BinaryExpression.cpp || cmake_object_order_depends_target_untitled4
+  DEP_FILE = CMakeFiles/untitled4.dir/compiler/expressions/BinaryExpression.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/untitled4.dir
-  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/expressions
+  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/compiler/expressions
 
-build CMakeFiles/untitled4.dir/parser/Parser.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/parser/Parser.cpp || cmake_object_order_depends_target_untitled4
-  DEP_FILE = CMakeFiles/untitled4.dir/parser/Parser.cpp.o.d
+build CMakeFiles/untitled4.dir/compiler/parser/Parser.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/guilherme/CLionProjects/GuigoLang/compiler/parser/Parser.cpp || cmake_object_order_depends_target_untitled4
+  DEP_FILE = CMakeFiles/untitled4.dir/compiler/parser/Parser.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/untitled4.dir
-  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/parser
+  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir/compiler/parser
 
 
 # =============================================================================
@@ -93,7 +93,7 @@ build CMakeFiles/untitled4.dir/parser/Parser.cpp.o: CXX_COMPILER__untitled4_unsc
 #############################################
 # Link the executable untitled4
 
-build untitled4: CXX_EXECUTABLE_LINKER__untitled4_Debug CMakeFiles/untitled4.dir/main.cpp.o CMakeFiles/untitled4.dir/lexer/Token.cpp.o CMakeFiles/untitled4.dir/scanner/Scanner.cpp.o CMakeFiles/untitled4.dir/error/GuigoError.cpp.o CMakeFiles/untitled4.dir/expressions/BinaryExpression.cpp.o CMakeFiles/untitled4.dir/parser/Parser.cpp.o
+build untitled4: CXX_EXECUTABLE_LINKER__untitled4_Debug CMakeFiles/untitled4.dir/core/src/main.cpp.o CMakeFiles/untitled4.dir/compiler/lexer/Token.cpp.o CMakeFiles/untitled4.dir/compiler/scanner/Scanner.cpp.o CMakeFiles/untitled4.dir/compiler/error/GuigoError.cpp.o CMakeFiles/untitled4.dir/compiler/expressions/BinaryExpression.cpp.o CMakeFiles/untitled4.dir/compiler/parser/Parser.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/untitled4.dir
   POST_BUILD = :

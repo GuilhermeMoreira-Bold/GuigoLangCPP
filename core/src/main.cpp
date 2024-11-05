@@ -1,11 +1,11 @@
 #include <iostream>
 #include <list>
 
-#include "scanner/Scanner.h"
+#include "../../compiler/scanner/Scanner.h"
 #include <fstream>
 
-#include "interpreter/Interpreter.h"
-#include "parser/Parser.h"
+#include "../../compiler/interpreter/Interpreter.h"
+#include "../../compiler/parser/Parser.h"
 
 void run(std::string& source) {
     Scanner scanner =  Scanner(source);
