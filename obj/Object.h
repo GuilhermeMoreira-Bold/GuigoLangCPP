@@ -9,6 +9,8 @@
 #include "../error/GuigoError.h"
 #include "../error/GuigoErrorCode.h"
 #include <cmath>
+#include <cstring>
+#include <iostream>
 
 class Object {
     public:
@@ -24,9 +26,18 @@ class Object {
         return number;
     }
 
-    bool operator ==(const Object &other) const {
-        if (type == other.type) {
-            return number == other.number || boolean == other.boolean || string == other.string;
+    bool operator == (const Object& second) const {
+        switch (type) {
+            case NUMBER:
+                if (second.type == type) return number == second.number;
+            break;
+            case STRING:
+                if (second.type == type) return string == second.string;
+            break;
+            case BOOLEAN:
+                if (second.type == type) return boolean == second.boolean;
+            break;
+            default: ;
         }
         return false;
     }

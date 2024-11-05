@@ -62,9 +62,9 @@ public:
             case EqualEqual:
                 return new Object(static_cast<double>(*left) == static_cast<double>(*right));
             case Bang:
-                return new Object(!isEqual(left, right));
+                return new Object(!isTruthy(right));
             case BangEqual:
-                return new Object(isEqual(left, right));
+                return new Object(!isEqual(left, right));
             default: ;
         }
         //Unrachable
@@ -82,11 +82,10 @@ public:
         switch (expression.token.token) {
             case Minus:
                 checkNumberOperand(expression.token, right);
-                return new Object(-*right);
+            return new Object(-*right);
             case Bang:
                 return new Object(!isTruthy(right));
-            default: ;
-;
+            default:;
         }
         // Unreachable
         return nullptr;
@@ -94,7 +93,10 @@ public:
 
     bool isTruthy(Object* obj) {
         if (obj == nullptr) return false;
-        if (obj->getType() == Object::BOOLEAN) return static_cast<bool>(obj);
+
+        if (obj->getType() == Object::BOOLEAN) {
+            return *(bool*)obj->getValue();
+        };
         return true;
     }
 

@@ -16,7 +16,7 @@ class UnaryExpression : public Expression {
     virtual ~UnaryExpression() override = default;
 
     std::string toString() override {
-        return "UnaryExpression" + expression->toString() + "(" + token.toString() + ")";
+        return "UnaryExpression:  " + expression->toString() + "(" + token.toString() + ")";
     };
     Object* accept(ExpressionVisitor &visitor) override {
         visitor.visitUnaryExpression(*this);

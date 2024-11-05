@@ -35,7 +35,7 @@ class LiteralExpression : public Expression {
                 str += *((std::string*)valuePtr);
             break;
             case Object::BOOLEAN:
-                str += *((bool*)valuePtr);
+                str += std::to_string(*(bool*)valuePtr);
             break;
             case Object::Null:
                 str += "null";
