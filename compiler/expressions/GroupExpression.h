@@ -12,15 +12,18 @@
 
 class Token;
 
+template <typename T>
+using Ref = std::shared_ptr<T>;
+
 class GroupExpression : public Expression{
     public:
-    GroupExpression(Expression* expression) : expression(std::move(expression)){};
+    GroupExpression(Ref<Expression> expression) : expression(std::move(expression)){};
     Object* accept(ExpressionVisitor& visitor) override{
         visitor.visitGroupExpression(*this);
     };
     std::string toString() override {
         return "GroupExpression" + expression->toString();
     };
-    Expression* expression;
+    Ref<Expression> expression;
 };
 #endif //GROUPEXPRESSION_H

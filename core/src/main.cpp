@@ -1,20 +1,14 @@
 #include <iostream>
-#include <list>
 
 #include "../../compiler/scanner/Scanner.h"
 #include <fstream>
-
+#include "../../compiler/pipeline/CompilationPipeline.h"
 #include "../../compiler/interpreter/Interpreter.h"
 #include "../../compiler/parser/Parser.h"
 
+
 void run(std::string& source) {
-    Scanner scanner =  Scanner(source);
-    std::list<Token> tokens = scanner.scanTokens();
-    Parser parser = Parser(tokens);
-    Expression* expression = parser.parse();
-    Interpreter* interpreter = new Interpreter();
-    interpreter->interpret(expression);
-    // std::cout << expression->toString() << std::endl;
+
 }
 
 void runFile(std::string& fileName) {
@@ -37,13 +31,13 @@ int main(int argc,char* argv[] ) {
             std::cout << "Error opening file" << std::endl;
             return -1;
         }
-        std::string line;
-        std::string source;
-        while(std::getline(arquive,line)) {
-            source.append(line + "\n");
-        }
-        arquive.close();
-        runFile(source);
+        CompilationPipeline pipeline;
+        GuigoFile* file = new GuigoFile(std::move(arquive));
+        pipeline.insertStage(new Scanner);
+        pipeline.insertStage(new Parser);
+        pipeline.insertStage(new Interpreter);
+
+        pipeline.execute(file);
     }else {
         runPrompt();
     }

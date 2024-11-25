@@ -15,7 +15,7 @@
 class Object {
     public:
     enum Type {
-        BOOLEAN, NUMBER, STRING,NONE, Null
+        BOOLEAN , NUMBER, STRING,NONE, Null
       };
         Type type;
     Type getType() const {

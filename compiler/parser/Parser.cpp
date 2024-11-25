@@ -4,6 +4,8 @@
 
 #include "Parser.h"
 
+#include <vector>
+
 
 #include "../expressions/BinaryExpression.h"
 #include "../expressions/UnaryExpression.h"
@@ -12,75 +14,108 @@
 #include "../error/GuigoErrorCode.h"
 #include "../error/GuigoError.h"
 
+void Parser::resetInternalState(ScannedData* input) {
+    tokens = &input->getTokens();
+}
 
-Expression* Parser::expression() {
+ParsedData* Parser::pass(ScannedData* input) {
+    resetInternalState(input);
+    scanExpressions();
+
+    for(auto& expression : expressions) {
+        std::cout << expression->toString() << std::endl;
+    }
+
+    return new ParsedData(expressions);
+}
+
+const std::type_info & Parser::getInputType() {
+    return typeid(ScannedData);
+}
+
+const std::type_info & Parser::getOutputType() {
+    return typeid(ParsedData);
+}
+
+std::string Parser::getDebugName() {
+    return "Parser";
+}
+
+void Parser::scanExpressions() {
+    while(!isAtEnd()) {
+        expressions.push_back(expression());
+    }
+}
+
+
+Ref<Expression> Parser::expression() {
     return equality();
 }
 
-Expression* Parser::equality() {
-    Expression* expr = comparison();
+Ref<Expression> Parser::equality() {
+    Ref<Expression> expr = comparison();
 
     if (match(BangEqual, EqualEqual)) {
-        Token& op = previous();
-        Expression* right = comparison();
-        expr = new BinaryExpression(expr,  right, op);
+        Ref<Token> op = previous();
+        Ref<Expression> right = comparison();
+        expr = std::make_shared<BinaryExpression>(expr,  right, *op);
     }
     return expr;
 }
 
-Expression* Parser::comparison() {
-    Expression* expr = term();
+Ref<Expression> Parser::comparison() {
+    Ref<Expression> expr = term();
 
     if (match(Greater, GreaterEqual, Less,LessEqual)) {
-        Token& op = previous();
-        Expression* right = term();
-        expr = new BinaryExpression(expr,  right, op);
+        Ref<Token> op = previous();
+        Ref<Expression> right = term();
+        expr = std::make_shared<BinaryExpression>(expr,  right, *op);
     }
     return expr;
 }
 
-Expression *Parser::term() {
-    Expression* expr = factor();
+Ref<Expression>Parser::term() {
+    Ref<Expression> expr = factor();
     while (match(Minus,Plus)) {
-        Token& op = previous();
-        Expression* right = factor();
-        expr = new BinaryExpression(expr,  right, op);
+        Ref<Token> op = previous();
+        Ref<Expression> right = factor();
+        expr = std::make_shared<BinaryExpression>(expr,  right, *op);
     }
     return expr;
 }
 
 
-Expression *Parser::factor() {
-    Expression* expr = unary();
+Ref<Expression>Parser::factor() {
+    Ref<Expression> expr = unary();
     while (match(Slash,Star)) {
-        Token& op = previous();
-        Expression* right = unary();
-        expr = new BinaryExpression(expr,  right, op);
+        Ref<Token> op = previous();
+        Ref<Expression> right = unary();
+        expr = std::make_shared<BinaryExpression>(expr,  right, *op);
     }
     return expr;
 }
 
-Expression* Parser::unary() {
+Ref<Expression> Parser::unary() {
     if (match(Bang, Minus)) {
-        Token& op = previous();
-        Expression* right = unary();
-        return new UnaryExpression(right, op);
+        Ref<Token> op = previous();
+        Ref<Expression> right = unary();
+        return std::make_shared<UnaryExpression>(right, *op);
     }
     return literal();
 }
 
 
-Expression *Parser::literal() {
-    if (match(False)) return new LiteralExpression(new Object(false));
-    if (match(True)) return new LiteralExpression(new Object(true));
+Ref<Expression>Parser::literal() {
+    if (match(False)) return std::make_shared<LiteralExpression>(new Object(false));
+    if (match(True)) return std::make_shared<LiteralExpression>(new Object(true));
     if (match(Number,String)) {
-        return new LiteralExpression(previous().literal);
+        return std::make_shared<LiteralExpression>(previous()->literal);
     }
 
     if (match(LeftParent)) {
-        Expression* expr = expression();
+        Ref<Expression> expr = expression();
         consume(RightParent, "Expect ')' after expression.");
-        return new GroupExpression(expr);
+        return std::make_shared<GroupExpression>(expr);
     }
     //unrechable
     GuigoError::parserError("Invalid expression.", GuigoErrorCode::InvalidExpression);
@@ -101,31 +136,31 @@ bool Parser::match(Args... types) {
 
 bool Parser::check(TOKENTYPE type) {
     if (isAtEnd()) return false;
-    return peek().token == type;
+    return peek()->token == type;
 }
 
-Token &Parser::advance() {
+Ref<Token> Parser::advance() {
     if (!isAtEnd()) current ++;
     return previous();
 }
 
 bool Parser::isAtEnd() {
-    return peek().token == Eof;
+    return peek()->token == Eof;
 }
 
-Token& Parser::peek() {
-    auto it = tokens.begin();
+Ref<Token> Parser::peek() {
+    auto it = tokens->begin();
     std::advance(it, current);
     return *it;
 }
 
-Token& Parser::previous() {
-    auto it = tokens.begin();
+Ref<Token> Parser::previous() {
+    auto it = tokens->begin();
     std::advance(it, current -1);
     return *it;
 }
 
-Token &Parser::consume(TOKENTYPE type, std::string message) {
+Ref<Token> Parser::consume(TOKENTYPE type, std::string message) {
     if (check(type)) return advance();
     GuigoError::parserError(message, GuigoErrorCode::InvalidExpression);
 };
@@ -133,9 +168,9 @@ Token &Parser::consume(TOKENTYPE type, std::string message) {
 void Parser::synchronize(){
     advance();
     while (!isAtEnd()) {
-        if (previous().token == Semicolon) return;
+        if (previous()->token == Semicolon) return;
 
-        switch (peek().token) {
+        switch (peek()->token) {
             case Class:
                 case Var:
             case If:

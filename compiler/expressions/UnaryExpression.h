@@ -9,11 +9,15 @@ class Expression;
 class ExpressionVisitor;
 class Token;
 
+
+template <typename T>
+using Ref = std::shared_ptr<T>;
+
 class UnaryExpression : public Expression {
     public:
-    UnaryExpression(Expression* e, Token &t) : expression(e), token(t) {};
+    UnaryExpression(Ref<Expression> e, Token &t) : expression(e), token(t) {};
 
-    virtual ~UnaryExpression() override = default;
+    ~UnaryExpression() override = default;
 
     std::string toString() override {
         return "UnaryExpression:  " + expression->toString() + "(" + token.toString() + ")";
@@ -23,7 +27,7 @@ class UnaryExpression : public Expression {
     };
 
     Token& token;
-    Expression* expression;
+    Ref<Expression> expression;
 
 };
 #endif //UNARYEXPRESSION_H

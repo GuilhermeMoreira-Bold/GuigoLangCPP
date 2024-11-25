@@ -1,20 +1,31 @@
 //
 // Created by guilherme on 07/10/24.
 //
-
 #ifndef SCANNER_H
 #define SCANNER_H
-#include <list>
 #include <string>
 #include <unordered_map>
-
+#include "ScannedData.h"
+#include "../file/GuigoFile.h"
 #include "../lexer/Token.h"
+#include "../pass/CompilationPass.h"
 
-class Scanner {
+template <typename T>
+using Ref = std::shared_ptr<T>;
+
+class Scanner : public CompilationPass<GuigoFile,ScannedData> {
 public:
+    const std::type_info &getInputType() override;
+    const std::type_info &getOutputType() override;
+
+    std::string getDebugName() override;
+    void resetInternalState(GuigoFile* input);
+    ScannedData* pass(GuigoFile* input) override;
+
     std::string source;
-    std::list<Token>  tokens;
-    std::list<Token> scanTokens();
+    std::vector<Ref<Token>> tokens;
+
+    void scanTokens();
     bool isAtEnd();
 
     void string();
@@ -33,7 +44,7 @@ public:
     void addToken(TOKENTYPE token, Object* literal);
     bool match(char expected);
     char peek();
-    Scanner(const std::string& source);
+    Scanner();
 private:
     int start = 0;
     int current = 0;

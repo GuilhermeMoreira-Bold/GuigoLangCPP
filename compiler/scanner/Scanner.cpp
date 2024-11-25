@@ -3,12 +3,39 @@
 //
 
 #include "Scanner.h"
-
 #include <iostream>
-
 #include "../error/GuigoError.h"
 
-Scanner::Scanner(const std::string &source)  {
+ScannedData * Scanner::pass(GuigoFile* input) {
+    resetInternalState(input);
+    scanTokens();
+    for(auto& token : tokens) {
+        std::cout << token->toString() << std::endl;
+    }
+    return new ScannedData(tokens);
+}
+
+void Scanner::resetInternalState(GuigoFile* input) {
+    line = 1;
+    start = 0;
+    current = 0;
+    source = input->getSource();
+    tokens = {};
+}
+
+const std::type_info & Scanner::getInputType() {
+    return typeid(GuigoFile);
+}
+
+const std::type_info & Scanner::getOutputType() {
+    return typeid(ScannedData);
+}
+
+std::string Scanner::getDebugName() {
+    return "Scanner";
+}
+
+Scanner::Scanner()  {
     Scanner::source = source;
     keywords.insert({"if",If});
     keywords.insert({"and",And});
@@ -23,13 +50,16 @@ Scanner::Scanner(const std::string &source)  {
 }
 
 
-std::list<Token> Scanner::scanTokens() {
+void Scanner::scanTokens() {
     while(!isAtEnd()) {
         start = current;
         scanToken();
     }
     addToken(Eof);
-    return tokens;
+
+    for(auto& token : tokens) {
+        std::cout << token->toString() << std::endl;
+    }
 }
 
 bool Scanner::isAtEnd() {
@@ -42,8 +72,8 @@ char Scanner::advance() {
 
 void Scanner::addToken(TOKENTYPE type, Object* literal) {
     std::string lexeme = source.substr(start, current - start);
-    Token token = Token(type, lexeme, line, literal);
-    tokens.push_back(token);
+    Ref<Token> token = std::make_shared<Token>(type, lexeme, line, literal);
+    this->tokens.emplace_back(token);
 }
 
 void Scanner::addToken(TOKENTYPE token) {
@@ -103,10 +133,12 @@ void Scanner::scanToken() {
     }
 
 }
+
 char Scanner::peek() {
     if(isAtEnd()) return '\0';
     return source.at(current);
 }
+
 void Scanner::string() {
     while(peek() != '"' && !isAtEnd()) {
         if(peek() == '\n') line++;

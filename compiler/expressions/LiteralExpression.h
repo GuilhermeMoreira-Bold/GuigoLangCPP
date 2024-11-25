@@ -16,7 +16,6 @@ class ExpressionVisitor;
 
 template <typename T>
 using Ref = std::shared_ptr<T>;
-
 class LiteralExpression : public Expression {
     public:
     LiteralExpression(Object* obj) : obj(std::move(obj)) {};
@@ -44,6 +43,5 @@ class LiteralExpression : public Expression {
         return str;
     };
     Object* obj;
-
 };
 #endif //LITERALEXPRESSION_H

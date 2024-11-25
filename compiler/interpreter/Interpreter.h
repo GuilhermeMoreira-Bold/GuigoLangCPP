@@ -3,19 +3,32 @@
 //
 #include <iostream>
 
+#include "InterpretedData.h"
 #include "../expressions/BinaryExpression.h"
 #include "../expressions/ExpressionVisitor.h"
 #include "../expressions/GroupExpression.h"
 #include "../expressions/LiteralExpression.h"
 #include "../expressions/UnaryExpression.h"
 #include "../lexer/TokenType.h"
+#include "../parser/ParsedData.h"
 
 #ifndef INTERPRETER_H
 #define INTERPRETER_H
 
-class Interpreter : public ExpressionVisitor {
+template <typename T>
+using Ref = std::shared_ptr<T>;
+
+class Interpreter : public ExpressionVisitor, public CompilationPass<ParsedData, InterpretedData> {
 public:
-    void interpret(Expression* expression) {
+    const std::type_info& getInputType() override;
+
+    const std::type_info& getOutputType() override;
+
+    std::string getDebugName() override;
+
+    InterpretedData* pass(ParsedData* input) override;
+
+    void interpret(Ref<Expression> expression) {
         try {
             Object* value = evaluate(expression);
             std::cout << value->toString() << "\n";
@@ -60,7 +73,18 @@ public:
                 checkNumberOperands(expression.op, left,right);
                 return new Object(static_cast<double>(*left) <= static_cast<double>(*right));
             case EqualEqual:
-                return new Object(static_cast<double>(*left) == static_cast<double>(*right));
+                switch(left->getType()) {
+                    case Object::NUMBER:
+                        return new Object(static_cast<double>(*left) == static_cast<double>(*right));
+                    case Object::STRING:
+                        return new Object(*static_cast<std::string *>(left->getValue()) == *static_cast<std::string *>(right->getValue()));
+                    case Object::BOOLEAN:
+                        return new Object(*(bool*)left->getValue() == *(bool*)right->getValue());
+                    default:
+                        return new Object();
+                }
+
+
             case Bang:
                 return new Object(!isTruthy(right));
             case BangEqual:
@@ -93,7 +117,6 @@ public:
 
     bool isTruthy(Object* obj) {
         if (obj == nullptr) return false;
-
         if (obj->getType() == Object::BOOLEAN) {
             return *(bool*)obj->getValue();
         };
@@ -108,7 +131,7 @@ public:
         return evaluate(expression.expression);
     }
 
-    Object* evaluate(Expression *expression) {
+    Object* evaluate(Ref<Expression>expression) {
         return expression->accept(*this);
     }
     void checkNumberOperands(Token& op, Object* left, Object* right) {
@@ -121,6 +144,24 @@ public:
         if (operand->getType() == Object::NUMBER) return;
         throw new std::runtime_error("Operand must be a number" + std::to_string(op.token) + " at:" +std::to_string(op.line));
     }
-
+    private:
+        std::vector<Ref<Expression>> expressions;
 };
+
+inline const std::type_info & Interpreter::getInputType() {
+    return typeid(ParsedData);
+}
+
+inline const std::type_info & Interpreter::getOutputType() {
+    return typeid(InterpretedData);
+}
+
+inline std::string Interpreter::getDebugName() {
+  return "Interpreter";
+}
+
+inline InterpretedData * Interpreter::pass(ParsedData* input) {
+    expressions = input->getExpressions();
+    interpret(expressions[0]);
+}
 #endif //INTERPRETER_H

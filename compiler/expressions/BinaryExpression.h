@@ -4,17 +4,21 @@
 
 #ifndef BINARYEXPRESSION_H
 #define BINARYEXPRESSION_H
+#include <memory>
+
 #include "Expression.h"
 #include "ExpressionVisitor.h"
 #include "../lexer/Token.h"
 
 
+template <typename T>
+using Ref = std::shared_ptr<T>;
 class BinaryExpression : public Expression {
     public:
-    Expression* leftExpression;
-    Expression* rightExpression;
+    Ref<Expression> leftExpression;
+    Ref<Expression> rightExpression;
     Token& op;
-    BinaryExpression(Expression* leftExpression,Expression* rightExpression, Token &op) : leftExpression(leftExpression), rightExpression(rightExpression), op(op) {};
+    BinaryExpression(Ref<Expression> leftExpression,Ref<Expression> rightExpression, Token &op) : leftExpression(leftExpression), rightExpression(rightExpression), op(op) {};
     Object* accept(ExpressionVisitor& visitor) override {
         visitor.visitBinaryExpression(*this);
     };

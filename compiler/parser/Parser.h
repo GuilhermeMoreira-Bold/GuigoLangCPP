@@ -4,49 +4,56 @@
 
 #ifndef PARSER_H
 #define PARSER_H
-#include <iostream>
-#include <list>
-#include <ostream>
+#include <vector>
 
+#include "ParsedData.h"
 #include "../lexer/Token.h"
 #include "../expressions/Expression.h"
+#include "../pass/CompilationPass.h"
+#include "../scanner/ScannedData.h"
 
+template <typename T>
+using Ref = std::shared_ptr<T>;
 
-class Parser {
+class Parser : public CompilationPass<ScannedData, ParsedData> {
 public:
-    Parser(std::list<Token> &tokens) : tokens(tokens) {};
 
-    Expression* parse() {
+    void resetInternalState(ScannedData* input);
+    Parser() = default;
+    ParsedData* pass(ScannedData* input);
+    Ref<Expression> parse() {
         return expression();
     }
+
+    const std::type_info & getInputType() override;
+
+    const std::type_info & getOutputType() override;
+
+    std::string getDebugName() override;
+
 private:
     void synchronize();
 
     int current = 0;
-    std::list<Token>& tokens;
+    std::vector<Ref<Token>>* tokens;
+    std::vector<Ref<Expression>> expressions;
 
     template<typename ...Args>
     bool match(Args... types);
     bool check(TOKENTYPE type);
     bool isAtEnd();
+    void scanExpressions();
+    Ref<Token> consume(TOKENTYPE type, std::string message);
+    Ref<Token> advance();
+    Ref<Token> peek();
+    Ref<Token> previous();
 
-
-
-    Token& consume(TOKENTYPE type, std::string message);
-    Token& advance();
-    Token& peek();
-    Token& previous();
-
-    Expression* expression();
-    Expression* equality();
-    Expression* comparison();
-    Expression* term();
-    Expression* factor();
-    Expression* unary();
-    Expression* literal();
-
+    Ref<Expression> expression();
+    Ref<Expression> equality();
+    Ref<Expression> comparison();
+    Ref<Expression> term();
+    Ref<Expression> factor();
+    Ref<Expression> unary();
+    Ref<Expression> literal();
 };
-
-
-
 #endif //PARSER_H

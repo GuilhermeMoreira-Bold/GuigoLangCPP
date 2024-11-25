@@ -23,4 +23,14 @@ add_executable(untitled4 core/src/main.cpp
         compiler/expressions/GroupExpression.h
         compiler/interpreter/Interpreter.h
         compiler/obj/Object.h
+        compiler/component/IOComponent.h
+        compiler/parser/ParsedData.h
+        compiler/pass/CompilationPass.h
+        compiler/scanner/ScannedData.h
+        compiler/scanner/ScannedData.cpp
+        compiler/file/GuigoFile.cpp
+        compiler/file/GuigoFile.h
+        compiler/parser/ParsedData.cpp
+        compiler/pipeline/CompilationPipeline.h
+        compiler/interpreter/InterpretedData.h
 )
